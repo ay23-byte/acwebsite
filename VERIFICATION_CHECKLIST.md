@@ -137,7 +137,7 @@
 In the settings:
 - [ ] Business name: "Air Pro Cooling Service"
 - [ ] Rating: 4.9
-- [ ] Experience: 2+ years
+- [ ] Experience: 5+ years
 - [ ] Customers: 5000+
 - [ ] Gas refill price: ₹3,300
 - [ ] Visit charge: ₹299

@@ -135,7 +135,7 @@ This is a service booking website for an AC repair/installation business in Luck
 - **Rating** - 4.9 stars ✓
 - **Review Count** - 350+ reviews ✓
 - **Customer Count** - 5000+ ✓
-- **Experience** - 2+ years ✓
+- **Experience** - 5+ years ✓
 - **Service Pricing** - Multiple tiers with prices ✓
 - **Service Areas** - 15+ neighborhoods listed ✓
 - **Business Hours** - 24/7 mentioned ✓

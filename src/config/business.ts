@@ -13,9 +13,9 @@ export const businessConfig = {
     rating: 4.9,
     reviews: 350,
     customers: '5000+',
-    experience: '2+',
+    experience: '5+',
     description: 'Professional AC Installation, Repair, Service & Gas Charging At Your Doorstep.',
-    descriptionLong: 'Trusted AC repair and installation service at affordable price. Serving Lucknow for 2+ years.',
+    descriptionLong: 'Trusted AC repair and installation service at affordable price. Serving Lucknow for 5+ years.',
     location: 'Lucknow, India',
   },
 
@@ -137,7 +137,7 @@ export const businessConfig = {
     'WhatsApp Booking Available 24/7',
     'Same-Day Service',
     'All Types of AC Models',
-    '2+ Years Experience',
+    '5+ Years Experience',
   ],
 
   // Customer Reviews with locations

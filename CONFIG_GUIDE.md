@@ -55,7 +55,7 @@ business: {
   rating: 4.9,  // Your rating
   reviews: 350,  // Number of reviews
   customers: '5000+',  // Customer count
-  experience: '2+',  // Years of experience
+  experience: '5+',  // Years of experience
   description: 'Professional AC Installation...',  // Short tagline
   location: 'Lucknow, India',  // Your location
 }
