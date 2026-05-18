@@ -7,13 +7,14 @@ import Link from 'next/link';
 
 interface Booking {
   _id: string;
-  customerName: string;
-  phone: string;
-  address: string;
+  customerName?: string;
+  phone?: string;
+  address?: string;
   service: string;
   latitude: number;
   longitude: number;
   createdAt: string;
+  ownerId?: string;
 }
 
 export default function DashboardPage() {
@@ -70,12 +71,20 @@ export default function DashboardPage() {
               Welcome, {session.user?.name} ({userRole})
             </p>
           </div>
-          <Link
-            href="/"
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            Back to Home
-          </Link>
+          <div className="flex gap-4">
+            <button
+              onClick={fetchBookings}
+              className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700"
+            >
+              Refresh
+            </button>
+            <Link
+              href="/"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Back to Home
+            </Link>
+          </div>
         </div>
 
         <div className="bg-white shadow rounded-lg p-6">
@@ -89,7 +98,14 @@ export default function DashboardPage() {
           </h2>
 
           {bookings.length === 0 ? (
-            <p className="text-gray-500">No bookings found.</p>
+            <div className="text-center py-8">
+              <p className="text-gray-500 mb-4">No bookings found.</p>
+              {userRole === 'customer' && (
+                <Link href="/" className="text-blue-600 hover:underline">
+                  Book a service now
+                </Link>
+              )}
+            </div>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {bookings.map((booking) => (
@@ -102,15 +118,26 @@ export default function DashboardPage() {
                     <span className="font-semibold text-red-600">{booking.service}</span>
                   </div>
                   <div className="space-y-1 text-sm">
-                    <p>
-                      <span className="font-medium">Customer:</span> {booking.customerName}
-                    </p>
-                    <p>
-                      <span className="font-medium">Phone:</span> {booking.phone}
-                    </p>
-                    <p>
-                      <span className="font-medium">Address:</span> {booking.address}
-                    </p>
+                    {booking.customerName && (
+                      <p>
+                        <span className="font-medium">Customer:</span> {booking.customerName}
+                      </p>
+                    )}
+                    {booking.phone && (
+                      <p>
+                        <span className="font-medium">Phone:</span> {booking.phone}
+                      </p>
+                    )}
+                    {booking.address && (
+                      <p>
+                        <span className="font-medium">Address:</span> {booking.address}
+                      </p>
+                    )}
+                    {booking.ownerId && (
+                      <p className="text-green-600 text-xs">
+                        ✓ Assigned to technician
+                      </p>
+                    )}
                     <p className="text-gray-500 text-xs">
                       {new Date(booking.createdAt).toLocaleDateString()}
                     </p>

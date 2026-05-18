@@ -1,14 +1,17 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
 
 interface BookingFormProps {
   onBookingAdded?: () => void;
 }
 
 export default function BookingForm({ onBookingAdded }: BookingFormProps) {
+  const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +26,7 @@ export default function BookingForm({ onBookingAdded }: BookingFormProps) {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setError(null); // Clear error when user starts typing
+    setError(null);
     setFormData(prev => ({
       ...prev,
       [name]: name === 'latitude' || name === 'longitude' ? parseFloat(value) : value,
@@ -36,7 +39,6 @@ export default function BookingForm({ onBookingAdded }: BookingFormProps) {
     setIsLoading(true);
 
     try {
-      // Validate form before submission
       if (!formData.customerName.trim()) {
         setError('Customer name is required');
         setIsLoading(false);
@@ -64,7 +66,6 @@ export default function BookingForm({ onBookingAdded }: BookingFormProps) {
       const data = await response.json();
 
       if (response.ok) {
-        // Reset form
         setFormData({
           customerName: '',
           phone: '',
@@ -76,14 +77,12 @@ export default function BookingForm({ onBookingAdded }: BookingFormProps) {
         setIsOpen(false);
         setError(null);
         
-        // Notify parent component
         if (onBookingAdded) {
           onBookingAdded();
         }
 
-        alert('✅ Booking confirmed successfully! We will contact you soon.');
+        alert('✅ Booking confirmed! A technician will contact you soon.');
       } else {
-        // Handle non-200 responses
         setError(data.error || `Server error: ${response.status}. Please try again.`);
       }
     } catch (error) {
@@ -94,6 +93,22 @@ export default function BookingForm({ onBookingAdded }: BookingFormProps) {
       setIsLoading(false);
     }
   };
+
+  if (status === 'loading') {
+    return <Button disabled>Loading...</Button>;
+  }
+
+  if (!session) {
+    return (
+      <div className='flex items-center gap-4'>
+        <Link href='/login'>
+          <Button className='bg-blue-600 hover:bg-blue-700 text-white'>
+            Sign In to Book
+          </Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -109,7 +124,6 @@ export default function BookingForm({ onBookingAdded }: BookingFormProps) {
           <CardContent className='p-6'>
             <h3 className='text-xl font-bold mb-4'>Book Our Service</h3>
             
-            {/* Error Message Display */}
             {error && (
               <div className='mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg'>
                 <p className='font-semibold'>Error:</p>

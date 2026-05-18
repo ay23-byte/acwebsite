@@ -70,27 +70,50 @@ export async function GET(request: NextRequest) {
             .select('-customerName -phone -address -customerId')
             .sort({ createdAt: -1 })
             .lean();
-          return NextResponse.json(bookings);
+          const serialized = bookings.map(b => ({
+            ...b,
+            _id: b._id.toString(),
+            ownerId: b.ownerId?.toString(),
+          }));
+          return NextResponse.json(serialized);
         }
 
         if (user.role === 'admin') {
           // Admin sees all bookings with full data
           const bookings = await Booking.find({}).sort({ createdAt: -1 }).lean();
-          return NextResponse.json(bookings);
+          const serialized = bookings.map(b => ({
+            ...b,
+            _id: b._id.toString(),
+            customerId: b.customerId?.toString(),
+            ownerId: b.ownerId?.toString(),
+          }));
+          return NextResponse.json(serialized);
         }
 
         if (user.role === 'technician') {
           // Technician sees only their assigned bookings
           query = { ownerId: user.id };
           const bookings = await Booking.find(query).sort({ createdAt: -1 }).lean();
-          return NextResponse.json(bookings);
+          const serialized = bookings.map(b => ({
+            ...b,
+            _id: b._id.toString(),
+            customerId: b.customerId?.toString(),
+            ownerId: b.ownerId?.toString(),
+          }));
+          return NextResponse.json(serialized);
         }
 
         if (user.role === 'customer') {
           // Customer sees only their own bookings
           query = { customerId: user.id };
           const bookings = await Booking.find(query).sort({ createdAt: -1 }).lean();
-          return NextResponse.json(bookings);
+          const serialized = bookings.map(b => ({
+            ...b,
+            _id: b._id.toString(),
+            customerId: b.customerId?.toString(),
+            ownerId: b.ownerId?.toString(),
+          }));
+          return NextResponse.json(serialized);
         }
 
         return NextResponse.json([]);
@@ -132,7 +155,7 @@ function handleInMemoryFallback(user: any) {
   return NextResponse.json([]);
 }
 
-// POST - Create a new booking
+// POST - Create a new booking with auto-assign to technician
 export async function POST(request: NextRequest) {
   try {
     const session = await getSession();
@@ -165,9 +188,38 @@ export async function POST(request: NextRequest) {
       try {
         const { connectDB } = await import('@/lib/db/mongoose');
         const BookingModel = await import('@/lib/db/models/Booking');
+        const UserModel = await import('@/lib/db/models/User');
         await connectDB();
 
         const Booking = BookingModel.default || BookingModel;
+        const User = UserModel.default || UserModel;
+
+        // Auto-assign to technician with fewest active bookings
+        const technicians = await User.find({ role: 'technician' }).select('_id');
+        let assignedOwnerId = null;
+
+        if (technicians.length > 0) {
+          // Find technician with least bookings
+          const bookingCounts = await Booking.aggregate([
+            { $match: { ownerId: { $in: technicians.map(t => t._id) } } },
+            { $group: { _id: '$ownerId', count: { $sum: 1 } } }
+          ]);
+
+          const countMap = new Map(bookingCounts.map(b => [b._id.toString(), b.count]));
+          
+          let minCount = Infinity;
+          let minTechId = technicians[0]._id;
+
+          for (const tech of technicians) {
+            const count = countMap.get(tech._id.toString()) || 0;
+            if (count < minCount) {
+              minCount = count;
+              minTechId = tech._id;
+            }
+          }
+          assignedOwnerId = minTechId;
+        }
+
         const newBooking = new Booking({
           customerName: body.customerName,
           phone: body.phone,
@@ -176,7 +228,7 @@ export async function POST(request: NextRequest) {
           latitude: body.latitude || 26.8467,
           longitude: body.longitude || 80.9462,
           customerId: user.id,
-          ownerId: body.ownerId || null,
+          ownerId: assignedOwnerId,
         });
 
         const savedBooking = await newBooking.save();
@@ -189,8 +241,8 @@ export async function POST(request: NextRequest) {
             service: savedBooking.service,
             latitude: savedBooking.latitude,
             longitude: savedBooking.longitude,
-            customerId: savedBooking.customerId,
-            ownerId: savedBooking.ownerId,
+            customerId: savedBooking.customerId?.toString(),
+            ownerId: savedBooking.ownerId?.toString(),
             createdAt: savedBooking.createdAt,
           },
           { status: 201 }
@@ -201,7 +253,7 @@ export async function POST(request: NextRequest) {
           _id: Date.now().toString(),
           ...body,
           customerId: user.id,
-          ownerId: body.ownerId || null,
+          ownerId: 'auto-assigned-tech',
           createdAt: new Date(),
         };
         bookingsStorage.unshift(newBooking);
@@ -219,7 +271,7 @@ export async function POST(request: NextRequest) {
       latitude: body.latitude || 26.8467,
       longitude: body.longitude || 80.9462,
       customerId: user.id,
-      ownerId: body.ownerId || null,
+      ownerId: 'auto-assigned-tech',
       createdAt: new Date(),
     };
 
