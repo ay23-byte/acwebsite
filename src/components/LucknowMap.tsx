@@ -35,15 +35,17 @@ interface Booking {
   latitude: number;
   longitude: number;
   service: string;
-  customerName: string;
-  address: string;
+  customerName?: string;
+  address?: string;
+  phone?: string;
 }
 
 interface LucknowMapProps {
   bookings?: Booking[];
+  showDetails?: boolean;
 }
 
-const LucknowMap = ({ bookings = [] }: LucknowMapProps) => {
+const LucknowMap = ({ bookings = [], showDetails = false }: LucknowMapProps) => {
   return (
     <MapContainer center={[26.8467, 80.9462]} zoom={13} style={{ height: '400px', width: '100%' }}>
       <TileLayer
@@ -68,9 +70,14 @@ const LucknowMap = ({ bookings = [] }: LucknowMapProps) => {
         >
           <Popup>
             <div style={{ fontWeight: 'bold', color: '#ef4444' }}>{booking.service}</div>
-            <div style={{ fontSize: '0.875rem' }}><strong>Customer:</strong> {booking.customerName}</div>
-            <div style={{ fontSize: '0.875rem' }}><strong>Phone:</strong> {booking.phone || 'N/A'}</div>
-            <div style={{ fontSize: '0.875rem' }}><strong>Address:</strong> {booking.address}</div>
+            {showDetails && (
+              <>
+                {booking.customerName && <div style={{ fontSize: '0.875rem' }}><strong>Customer:</strong> {booking.customerName}</div>}
+                {booking.phone && <div style={{ fontSize: '0.875rem' }}><strong>Phone:</strong> {booking.phone}</div>}
+                {booking.address && <div style={{ fontSize: '0.875rem' }}><strong>Address:</strong> {booking.address}</div>}
+              </>
+            )}
+            {!showDetails && <div style={{ fontSize: '0.875rem', color: '#6b7280' }}>Service location</div>}
           </Popup>
         </Marker>
       ))}

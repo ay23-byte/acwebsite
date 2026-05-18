@@ -7,6 +7,8 @@ export interface IBooking extends Document {
   service: string;
   latitude: number;
   longitude: number;
+  ownerId: mongoose.Types.ObjectId;
+  customerId: mongoose.Types.ObjectId;
   createdAt: Date;
 }
 
@@ -39,6 +41,16 @@ const bookingSchema = new Schema<IBooking>(
     longitude: {
       type: Number,
       required: [true, 'Longitude is required'],
+    },
+    ownerId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Owner ID is required'],
+    },
+    customerId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'Customer ID is required'],
     },
   },
   {
