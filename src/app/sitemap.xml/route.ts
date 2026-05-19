@@ -1,13 +1,16 @@
 export async function GET() {
-  const baseUrl = 'https://airprocooling.com' 
+  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN || 'https://airprocoolingservice.com'
   
   const pages = [
-    '',
-    '/about',
-    '/services',
-    '/contact',
-    '/privacy',
-    '/terms',
+    { path: '', priority: '1.0', changefreq: 'daily' },
+    { path: '/about', priority: '0.8', changefreq: 'monthly' },
+    { path: '/services', priority: '0.9', changefreq: 'weekly' },
+    { path: '/contact', priority: '0.8', changefreq: 'monthly' },
+    { path: '/privacy', priority: '0.5', changefreq: 'yearly' },
+    { path: '/terms', priority: '0.5', changefreq: 'yearly' },
+    { path: '/login', priority: '0.6', changefreq: 'monthly' },
+    { path: '/register', priority: '0.6', changefreq: 'monthly' },
+    { path: '/dashboard', priority: '0.7', changefreq: 'daily' },
   ]
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -16,10 +19,10 @@ export async function GET() {
     .map(
       (page) => `
   <url>
-    <loc>${baseUrl}${page}</loc>
+    <loc>${baseUrl}${page.path}</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
-    <changefreq>${page === '' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${page === '' ? '1.0' : '0.8'}</priority>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
   </url>
   `
     )

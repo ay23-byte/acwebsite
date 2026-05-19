@@ -1,9 +1,23 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /dashboard
+Disallow: /_next/
+Disallow: /*?*
 
-# Crawl delay
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /_next/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+
+# Crawl delay for polite crawling
 Crawl-delay: 1
 
-# Sitemap
-Sitemap: https://airprocooling.com/sitemap.xml
+# Sitemaps
+Sitemap: https://airprocoolingservice.com/sitemap.xml
