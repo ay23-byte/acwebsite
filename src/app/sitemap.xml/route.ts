@@ -10,7 +10,6 @@ export async function GET() {
     { path: '/terms', priority: '0.5', changefreq: 'yearly' },
     { path: '/login', priority: '0.6', changefreq: 'monthly' },
     { path: '/register', priority: '0.6', changefreq: 'monthly' },
-    { path: '/dashboard', priority: '0.7', changefreq: 'daily' },
   ]
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

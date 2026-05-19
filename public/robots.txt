@@ -3,7 +3,6 @@ Allow: /
 Disallow: /api/
 Disallow: /dashboard
 Disallow: /_next/
-Disallow: /*?*
 
 User-agent: Googlebot
 Allow: /
