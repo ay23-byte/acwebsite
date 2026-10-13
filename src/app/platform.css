@@ -1,0 +1,134 @@
+.platform-page,
+.tenant-site {
+  --tenant-accent: #67e8f9;
+  color: #f8fafc;
+}
+
+.platform-hero,
+.tenant-hero {
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse at 78% 30%, rgba(8, 145, 178, .14), transparent 38%),
+    radial-gradient(ellipse at 12% 65%, rgba(37, 99, 235, .13), transparent 42%),
+    #07111d;
+}
+
+.platform-gradient-text,
+.tenant-accent {
+  background: linear-gradient(110deg, #f8fafc 3%, #a5f3fc 45%, #22d3ee 95%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.platform-visual::before {
+  content: '';
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  background: rgba(34, 211, 238, .12);
+  filter: blur(60px);
+}
+
+.platform-ring {
+  position: absolute;
+  border: 1px solid rgba(165, 243, 252, .12);
+  border-radius: 50%;
+  transform: rotate(-22deg);
+}
+
+.platform-ring-a { width: 92%; height: 42%; }
+.platform-ring-b { width: 74%; height: 72%; transform: rotate(36deg); }
+
+.platform-glass-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.105), rgba(255,255,255,.025));
+  box-shadow: 0 35px 100px rgba(0,0,0,.32), inset 0 1px rgba(255,255,255,.1);
+}
+
+.platform-template-card {
+  background: linear-gradient(155deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+  transition: transform .25s ease, border-color .25s ease;
+}
+
+.platform-template-card:hover { transform: translateY(-4px); border-color: rgba(103,232,249,.32); }
+
+.platform-template-art {
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(103,232,249,.45), transparent 35%),
+    linear-gradient(135deg, #132b40, #07111d 65%);
+}
+
+.platform-template-art-2 {
+  background:
+    radial-gradient(ellipse at 70% 25%, rgba(96,165,250,.45), transparent 35%),
+    linear-gradient(135deg, #152d42, #091522 65%);
+}
+
+.platform-template-art-3 {
+  background:
+    radial-gradient(ellipse at 30% 35%, rgba(45,212,191,.28), transparent 38%),
+    linear-gradient(135deg, #102c32, #07111d 65%);
+}
+
+.tenant-site {
+  --tenant-bg: #07111d;
+  --tenant-card: rgba(255,255,255,.035);
+  background: var(--tenant-bg);
+}
+
+.tenant-midnight { --tenant-bg: #07111d; }
+.tenant-commercial { --tenant-bg: #081522; }
+.tenant-ice { --tenant-bg: #0a1927; }
+
+.tenant-site .tenant-hero {
+  background:
+    radial-gradient(ellipse at 76% 42%, rgba(34,211,238,.15), transparent 35%),
+    radial-gradient(ellipse at 5% 70%, rgba(59,130,246,.1), transparent 42%),
+    var(--tenant-bg);
+}
+
+.tenant-commercial .tenant-accent {
+  background-image: linear-gradient(110deg, #fff 3%, #bfdbfe 50%, #60a5fa 95%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.tenant-ice .tenant-accent {
+  background-image: linear-gradient(110deg, #fff 3%, #99f6e4 50%, #5eead4 95%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.tenant-service-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+}
+
+.tenant-contact-panel {
+  background:
+    radial-gradient(ellipse at 90% 10%, rgba(34,211,238,.17), transparent 40%),
+    linear-gradient(135deg, rgba(20,48,68,.95), rgba(9,22,35,.98));
+}
+
+.tenant-orb {
+  position: absolute;
+  z-index: -1;
+  width: 260px;
+  height: 260px;
+  border: 1px solid rgba(103,232,249,.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.tenant-orb-one { top: 12%; right: -140px; }
+.tenant-orb-two { bottom: 4%; left: -190px; width: 360px; height: 360px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .platform-template-card,
+  .tenant-service-card,
+  .platform-template-card:hover,
+  .tenant-service-card:hover {
+    transition: none;
+    transform: none;
+  }
+}
