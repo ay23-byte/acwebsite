@@ -4,7 +4,7 @@ import { ArrowRight, Check, Layers3, Palette, Settings2, Wind } from 'lucide-rea
 import { demoTenants } from '@/config/tenants'
 
 export const metadata: Metadata = {
-  title: 'ACWebsite — Premium websites for AC businesses',
+  title: { absolute: 'ACWebsite — Premium websites for AC businesses' },
   description: 'A configurable website platform concept for air-conditioning and HVAC businesses. Explore branded demo websites and reusable service layouts.',
   robots: { index: false, follow: false },
 }
