@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import {
   ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronDown, CircleHelp,
@@ -166,7 +166,7 @@ export default function PlatformLanding() {
             })}
             <div className="acw-showcase-side-note"><WandSparkles size={17} /><span>Different services.<br /><b>Same flexible foundation.</b></span></div>
           </div>
-          <motion.div className="acw-showcase-preview" key={selected.id} initial={{ opacity: 0.5, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} style={{ '--preview-accent': selected.accent } as React.CSSProperties}>
+          <motion.div className="acw-showcase-preview" key={selected.id} initial={{ opacity: 0.5, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} style={{ '--preview-accent': selected.accent } as CSSProperties}>
             <div className="acw-preview-top"><span className="acw-preview-brand"><i /> {selected.id === 'cooling' ? 'ARCTIC & AIR' : selected.id === 'heating' ? 'EMBER HOME' : 'CLEARWELL AIR'}</span><span className="acw-preview-badge"><span /> SAMPLE CONCEPT</span></div>
             <div className="acw-preview-main">
               <div className="acw-preview-copy"><div className="acw-preview-kicker">YOUR COMFORT, YOUR WAY</div><h3>{selected.title}</h3><p>{selected.subtitle}</p><a href="#get-started" className="acw-preview-link">Discover the difference <ArrowUpRight size={15} /></a><div className="acw-preview-services">{selected.services.map((service) => <span key={service}><Check size={13} />{service}</span>)}</div></div>
