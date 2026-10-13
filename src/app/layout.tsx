@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import SiteChrome from '@/components/SiteChrome'
+import './platform.css'
 import Provider from '@/components/Provider'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -126,9 +126,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Provider>
-          <Header />
-          {children}
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </Provider>
       </body>
     </html>
