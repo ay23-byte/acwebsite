@@ -18,7 +18,7 @@ export function generateMetadata({ params }: DemoPageProps): Metadata {
   if (!tenant) return { title: 'Demo website not found | ACWebsite' }
 
   return {
-    title: `${tenant.name} | ACWebsite demo`,
+    title: { absolute: `${tenant.name} | ACWebsite demo` },
     description: tenant.description,
     robots: { index: false, follow: false },
   }
