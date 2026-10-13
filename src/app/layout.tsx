@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
+import type { ReactNode } from 'react'
 import './globals.css'
 import Provider from '@/components/Provider'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://github.com/ay23-byte/acwebsite'),
   title: {
     default: 'ACWebsite — A better digital home for HVAC businesses',
     template: '%s | ACWebsite',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: ReactNode
 }>) {
   return (
     <html lang="en">
